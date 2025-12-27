@@ -1,7 +1,11 @@
-# backend/app/models/user.py
+"""
+Modèle Utilisateur
+"""
+
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from sqlalchemy.sql import func
-from ..core.database import Base
+from app.db.base_class import Base  # ✅ CORRECT
+
 
 class User(Base):
     """Modèle Utilisateur"""

@@ -1,29 +1,36 @@
-# backend/app/models/amortissement.py
-from sqlalchemy import Column, Integer, String, Numeric, Date, ForeignKey
+"""
+Modèle Amortissement
+"""
+
+from sqlalchemy import Column, Integer, Numeric, Date, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from app.core.database import Base, TimestampMixin
+from sqlalchemy.sql import func
+from app.db.base_class import Base
 
 
-class Amortissement(Base, TimestampMixin):
-    """Modèle pour les lignes d'amortissement (une par exercice)."""
-    
+class Amortissement(Base):
+    """Modèle Amortissement"""
     __tablename__ = "amortissements"
-
-    id = Column(Integer, primary_key=True, index=True)
-    immobilisation_id = Column(Integer, ForeignKey("immobilisations.id", ondelete="CASCADE"), nullable=False)
-    exercice = Column(Integer, nullable=False)  # Année comptable (ex: 2024)
     
-    # Dates
+    id = Column(Integer, primary_key=True, index=True)
+    
+    # Clé étrangère
+    immobilisation_id = Column(Integer, ForeignKey("immobilisations.id"), nullable=False)
+    
+    # Données de l'amortissement
+    annee = Column(Integer, nullable=False)
     date_debut = Column(Date, nullable=False)
     date_fin = Column(Date, nullable=False)
-    
-    # Montants
-    valeur_origine = Column(Numeric(15, 2), nullable=False)
-    base_amortissable = Column(Numeric(15, 2), nullable=False)
-    taux = Column(Numeric(5, 2), nullable=False)  # Taux en %
-    dotation = Column(Numeric(15, 2), nullable=False)  # Dotation de l'exercice
-    cumul_amortissements = Column(Numeric(15, 2), nullable=False)
+    dotation = Column(Numeric(15, 2), nullable=False)
+    cumul = Column(Numeric(15, 2), nullable=False)
     valeur_nette_comptable = Column(Numeric(15, 2), nullable=False)
     
-    # Relations
+    # Dates de création et modification
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    
+    # Relation
     immobilisation = relationship("Immobilisation", back_populates="amortissements")
+    
+    def __repr__(self):
+        return f"<Amortissement {self.annee} - Immo {self.immobilisation_id}>"

@@ -1,16 +1,21 @@
-# backend/app/main.py
+"""
+Point d'entrée principal de l'API FastAPI
+"""
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .core.config import settings
-from .core.database import engine, Base
+from app.core.config import settings
+from app.api.v1.api import api_router
 
-# Créer les tables
-Base.metadata.create_all(bind=engine)
 
 # Créer l'application FastAPI
 app = FastAPI(
     title=settings.APP_NAME,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    version=settings.APP_VERSION,
+    description="API de gestion des immobilisations et amortissements",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
 )
 
 # Configuration CORS
@@ -22,19 +27,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Inclure les routes API
+app.include_router(api_router, prefix="/api/v1")
+
+
 @app.get("/")
 async def root():
-    """Page d'accueil de l'API"""
+    """Route racine"""
     return {
-        "message": f"Bienvenue sur l'API {settings.APP_NAME}",
-        "version": "1.0.0",
-        "docs": "/docs"
+        "message": "API Gestion Immobilisations",
+        "version": settings.APP_VERSION,
+        "docs": "/docs",
     }
+
 
 @app.get("/health")
 async def health_check():
-    """Vérification de l'état de l'application"""
+    """Vérification de l'état de l'API"""
     return {
-        "status": "healthy",
-        "database": "connected"
+        "status": "ok",
+        "app": settings.APP_NAME,
+        "version": settings.APP_VERSION,
     }
