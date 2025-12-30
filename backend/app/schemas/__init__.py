@@ -1,31 +1,55 @@
-# app/schemas/__init__.py
-from .user import User, UserCreate, UserUpdate, UserInList
-from .societe import Societe, SocieteCreate, SocieteUpdate, SocieteInList
+"""
+Schémas Pydantic
+"""
+
+from .user import User, UserCreate, UserUpdate, UserInDB
+from .societe import SocieteBase, SocieteCreate, SocieteUpdate, SocieteInDB, SocieteResponse
+from .categorie import CategorieBase, CategorieCreate, CategorieUpdate, CategorieInDB, CategorieResponse
 from .immobilisation import (
-    Immobilisation,
+    ImmobilisationBase,
     ImmobilisationCreate,
     ImmobilisationUpdate,
-    ImmobilisationWithRelations
+    ImmobilisationInDB,
+    ImmobilisationResponse,
+    ImmobilisationWithDetails
 )
-from .token import Token, TokenPayload
+from .amortissement import (
+    AmortissementBase,
+    AmortissementCreate,
+    AmortissementUpdate,
+    AmortissementInDB,
+    AmortissementResponse
+)
 
 __all__ = [
     # User
     "User",
     "UserCreate",
     "UserUpdate",
-    "UserInList",
+    "UserInDB",
     # Societe
-    "Societe",
+    "SocieteBase",
     "SocieteCreate",
     "SocieteUpdate",
-    "SocieteInList",
+    "SocieteInDB",
+    "SocieteResponse",
+    # Categorie
+    "CategorieBase",
+    "CategorieCreate",
+    "CategorieUpdate",
+    "CategorieInDB",
+    "CategorieResponse",
     # Immobilisation
-    "Immobilisation",
+    "ImmobilisationBase",
     "ImmobilisationCreate",
     "ImmobilisationUpdate",
-    "ImmobilisationWithRelations",
-    # Token
-    "Token",
-    "TokenPayload",
+    "ImmobilisationInDB",
+    "ImmobilisationResponse",
+    "ImmobilisationWithDetails",
+    # Amortissement
+    "AmortissementBase",
+    "AmortissementCreate",
+    "AmortissementUpdate",
+    "AmortissementInDB",
+    "AmortissementResponse",
 ]

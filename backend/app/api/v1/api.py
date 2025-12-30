@@ -1,15 +1,21 @@
 """
-Router principal API v1
+Routeur principal API V1
 """
 
 from fastapi import APIRouter
-from app.api.v1.endpoints import auth, users, categories, societes, immobilisations
+from app.api.v1.endpoints import categories, societes
 
 api_router = APIRouter()
 
-# Inclure les routers des endpoints
-api_router.include_router(auth.router, prefix="/auth", tags=["Authentification"])
-api_router.include_router(users.router, prefix="/users", tags=["Utilisateurs"])
-api_router.include_router(categories.router, prefix="/categories", tags=["Catégories"])
-api_router.include_router(societes.router, prefix="/societes", tags=["Sociétés"])
-api_router.include_router(immobilisations.router, prefix="/immobilisations", tags=["Immobilisations"])
+# Inclusion des routes
+api_router.include_router(
+    categories.router,
+    prefix="/categories",
+    tags=["Catégories"]
+)
+
+api_router.include_router(
+    societes.router,
+    prefix="/societes",
+    tags=["Sociétés"]
+)

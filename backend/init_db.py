@@ -1,43 +1,30 @@
 """
 Script d'initialisation de la base de données
-Crée les tables et ajoute des données de test
 """
 
-import sys
-from pathlib import Path
-
-# Ajouter le répertoire backend au PYTHONPATH
-sys.path.insert(0, str(Path(__file__).parent))
-
-from sqlalchemy.orm import Session
-from datetime import date, datetime
-
-# ✅ FORCER l'import des modèles AVANT create_all
-from app.db.base import Base  # Import Base et tous les modèles
-from app.db.session import engine, SessionLocal
+from app.db.session import SessionLocal, engine
+from app.db.base import Base
 from app.models.user import User
-from app.models.categorie import Categorie
 from app.models.societe import Societe
-from app.models.immobilisation import Immobilisation
+from app.models.categorie import Categorie
 from app.core.security import get_password_hash
 
 
-def init_db() -> None:
-    """Initialise la base de données avec des données de test"""
+def init_db():
+    """Initialise la base de données avec les données de base"""
     
-    # 1. Créer toutes les tables
     print("🔧 Création des tables...")
-    Base.metadata.drop_all(bind=engine)  # ⚠️ Supprime TOUTES les tables
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     print("✅ Tables créées avec succès!")
     
-    # 2. Créer une session
-    db: Session = SessionLocal()
+    db = SessionLocal()
     
     try:
-        # 3. Vérifier/créer l'utilisateur admin
+        # Créer l'utilisateur admin
         print("\n🔧 Vérification utilisateur admin...")
         admin = db.query(User).filter(User.email == "admin@dcimmo.fr").first()
+        
         if not admin:
             admin = User(
                 email="admin@dcimmo.fr",
@@ -55,61 +42,52 @@ def init_db() -> None:
         else:
             print(f"ℹ️  Utilisateur existe déjà: {admin.email}")
         
-        # 4. Créer des catégories
+        # Créer les catégories par défaut
         print("\n🔧 Vérification catégories...")
-        cat_info = db.query(Categorie).filter(Categorie.code == "INFO").first()
-        if not cat_info:
-            cat_info = Categorie(
-                code="INFO",
-                libelle="Informatique",
-                duree_amortissement=3,
-                taux_amortissement=33.33
-            )
-            db.add(cat_info)
-            db.commit()
-            db.refresh(cat_info)
-            print(f"✅ Catégorie créée: {cat_info.code} - {cat_info.libelle}")
-        else:
-            print(f"ℹ️  Catégorie existe déjà: {cat_info.code}")
+        categories_data = [
+            {"code": "INFO", "libelle": "Informatique", "duree": 3, "taux": 33.33},
+            {"code": "MOB", "libelle": "Mobilier", "duree": 10, "taux": 10.00},
+            {"code": "MAT", "libelle": "Matériel de transport", "duree": 5, "taux": 20.00},
+            {"code": "IMMO", "libelle": "Immobilier", "duree": 20, "taux": 5.00},
+        ]
         
-        # 5. Créer une société
+        for cat_data in categories_data:
+            cat = db.query(Categorie).filter(Categorie.code == cat_data["code"]).first()
+            if not cat:
+                cat = Categorie(
+                    code=cat_data["code"],
+                    libelle=cat_data["libelle"],
+                    duree_amortissement=cat_data["duree"],
+                    taux_amortissement=cat_data["taux"]
+                )
+                db.add(cat)
+                db.commit()
+                db.refresh(cat)
+                print(f"✅ Catégorie créée: {cat.code} - {cat.libelle}")
+            else:
+                print(f"ℹ️  Catégorie existe déjà: {cat.code} - {cat.libelle}")
+        
+        # Créer une société de test
         print("\n🔧 Vérification sociétés...")
         societe = db.query(Societe).filter(Societe.code == "SOC001").first()
+        
         if not societe:
             societe = Societe(
                 code="SOC001",
-                raison_sociale="Société Exemple SARL",
-                siret="12345678901234",
-                adresse="123 Rue de Test",
-                ville="Paris",
+                raison_sociale="DC Consulting SARL",
+                siret="12345678900012",
+                adresse="123 rue Example",
                 code_postal="75001",
-                pays="France"
+                ville="Paris",
+                pays="France",  # ✅ Maintenant supporté
+                forme_juridique="SARL"
             )
             db.add(societe)
             db.commit()
             db.refresh(societe)
             print(f"✅ Société créée: {societe.code} - {societe.raison_sociale}")
         else:
-            print(f"ℹ️  Société existe déjà: {societe.code}")
-        
-        # 6. Créer une immobilisation
-        print("\n🔧 Vérification immobilisations...")
-        immo = db.query(Immobilisation).filter(Immobilisation.code == "IMMO001").first()
-        if not immo:
-            immo = Immobilisation(
-                code="IMMO001",
-                libelle="Ordinateur portable Dell",
-                date_acquisition=date(2024, 1, 1),
-                valeur_origine=1500.00,
-                categorie_id=cat_info.id,
-                societe_id=societe.id
-            )
-            db.add(immo)
-            db.commit()
-            db.refresh(immo)
-            print(f"✅ Immobilisation créée: {immo.code} - {immo.libelle}")
-        else:
-            print(f"ℹ️  Immobilisation existe déjà: {immo.code}")
+            print(f"ℹ️  Société existe déjà: {societe.code} - {societe.raison_sociale}")
         
         print("\n🎉 Base de données initialisée avec succès!")
         

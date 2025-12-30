@@ -1,0 +1,893 @@
+# Cahier des Charges - Logiciel de Gestion des Immobilisations
+
+## 1. PRÉSENTATION GÉNÉRALE
+
+### 1.1 Objectif du projet
+
+Développer un logiciel de gestion comptable des immobilisations permettant le suivi, le calcul des amortissements et dotations, avec une architecture multi-pays et paramétrable.
+
+### 1.2 Périmètre
+
+- Public cible : Toutes tailles d’entreprises (TPE, PME, Grandes entreprises)
+- Utilisateurs simultanés : 3-4 en moyenne
+- Déploiement : Application Web et Desktop
+- Multi-pays avec paramétrages locaux
+
+### 1.3 Contraintes générales
+
+- Respect des normes comptables internationales (paramétrable par pays)
+- Sécurité et traçabilité des opérations
+- Architecture évolutive et maintenable
+- Interface bilingue minimum (français/anglais) extensible
+
+-----
+
+## 2. SPÉCIFICATIONS FONCTIONNELLES
+
+### 2.1 Gestion des immobilisations
+
+#### 2.1.1 Création et mise à jour d’immobilisations
+
+- Enregistrement des informations principales :
+  - Numéro d’immobilisation (auto-généré ou manuel)
+  - Libellé et description détaillée
+  - Date d’acquisition
+  - Date de mise en service
+  - Valeur d’acquisition (HT/TTC)
+  - Localisation physique
+  - Responsable/Service
+  - Fournisseur
+  - N° facture d’achat
+  - Garantie (date début/fin)
+- Catégorisation :
+  - Type d’immobilisation (paramétrable)
+  - Compte comptable (plan comptable paramétrable)
+  - Famille et sous-famille
+  - Code analytique (optionnel)
+- Pièces jointes :
+  - Factures
+  - Photos
+  - Certificats
+  - Documents divers
+
+#### 2.1.2 Paramétrage des amortissements
+
+- Modes d’amortissement :
+  - Linéaire
+  - Dégressif
+  - Dégressif avec basculement linéaire
+  - Exceptionnel
+  - Dérogatoire
+  - Variable (paramétrable)
+- Paramètres par immobilisation :
+  - Durée d’amortissement (années ou mois)
+  - Date de début d’amortissement
+  - Valeur résiduelle
+  - Taux d’amortissement
+  - Prorata temporis (oui/non)
+  - Amortissement fiscal vs comptable
+
+#### 2.1.3 Gestion des événements
+
+- Cession :
+  - Date de cession
+  - Prix de cession
+  - Acquéreur
+  - Calcul automatique de la plus/moins-value
+  - Sortie du patrimoine
+- Mise au rebut :
+  - Date de mise au rebut
+  - Motif
+  - Sortie comptable
+- Réévaluation :
+  - Date de réévaluation
+  - Nouvelle valeur
+  - Écart de réévaluation
+  - Impact sur amortissements futurs
+- Décomposition :
+  - Fractionnement d’une immobilisation
+  - Conservation de l’historique
+- Transfert :
+  - Changement de localisation
+  - Changement de responsable
+  - Changement d’entité (multi-sociétés)
+
+### 2.2 Calculs et dotations
+
+#### 2.2.1 Calcul des amortissements
+
+- Calcul mensuel automatique
+- Calcul à la demande pour simulation
+- Recalcul global ou par sélection
+- Gestion du prorata temporis
+- Calcul des dotations complémentaires
+- Calcul des reprises sur cession
+
+#### 2.2.2 Gestion des dotations
+
+- Génération mensuelle/annuelle
+- Validation des dotations
+- Comptabilisation (écriture comptable)
+- Extourne des dotations
+- Historique complet des dotations
+
+### 2.3 Éditions et contrôles
+
+#### 2.3.1 États de contrôle
+
+- État récapitulatif des immobilisations :
+  - Par famille/catégorie
+  - Par localisation
+  - Par responsable
+  - Par date d’acquisition
+- Plan d’amortissement :
+  - Individuel par immobilisation
+  - Global avec détail
+  - Prévisionnel sur N années
+- Journal des dotations :
+  - Mensuel
+  - Annuel
+  - Par compte comptable
+- État des cessions :
+  - Plus/moins-values réalisées
+  - Détail par immobilisation cédée
+- État de rapprochement :
+  - Valeur nette comptable vs inventaire physique
+  - Écarts et anomalies
+
+#### 2.3.2 Contrôles automatiques
+
+- Alertes et notifications :
+  - Incohérences détectées (dates, montants)
+  - Fin de garantie proche
+  - Amortissement complet
+  - Immobilisations non mises en service
+- Tableaux de bord :
+  - Valeur totale du patrimoine
+  - Évolution mensuelle
+  - Dotations par période
+  - Répartition par catégorie
+
+### 2.4 Exports paramétrables
+
+#### 2.4.1 Formats d’export
+
+- Excel/CSV (structuré)
+- PDF (états imprimables)
+- XML (échanges inter-applications)
+- Format comptable standard :
+  - FEC (Fichier des Écritures Comptables - France)
+  - Format personnalisable selon pays
+
+#### 2.4.2 Paramétrages des exports
+
+- Sélection des colonnes
+- Filtres (dates, catégories, comptes)
+- Ordre de tri
+- Regroupements
+- Modèles d’export sauvegardables
+- Export automatique programmé
+
+### 2.5 Gestion des utilisateurs et sécurité
+
+#### 2.5.1 Profils utilisateurs
+
+- Administrateur : tous droits
+- Gestionnaire : création, modification, calculs
+- Consultant : lecture seule + éditions
+- Saisie : création/modification limitée
+
+#### 2.5.2 Droits et permissions
+
+- Gestion par module
+- Restrictions par entité/société
+- Traçabilité des actions (audit trail)
+- Validation à plusieurs niveaux (workflow)
+
+### 2.6 Paramétrage multi-pays
+
+#### 2.6.1 Paramètres comptables
+
+- Plan comptable par pays/norme
+- Règles d’amortissement locales
+- Taux fiscaux par juridiction
+- Seuils de capitalisation
+- Formats de numérotation
+
+#### 2.6.2 Paramètres applicatifs
+
+- Langue de l’interface
+- Format de dates
+- Séparateurs décimaux
+- Devise par défaut et multi-devises
+- Exercice fiscal (dates)
+
+-----
+
+## 3. SPÉCIFICATIONS TECHNIQUES
+
+### 3.1 Architecture générale
+
+#### 3.1.1 Architecture applicative
+
+```
+┌─────────────────────────────────────┐
+│   Clients (Desktop & Web)           │
+│   - Electron/Tauri (Desktop)        │
+│   - React + TypeScript (Web/Desktop)│
+└──────────────┬──────────────────────┘
+               │ HTTPS/REST API
+┌──────────────▼──────────────────────┐
+│   Backend API (FastAPI/Python)      │
+│   - Logique métier                  │
+│   - Calculs amortissements          │
+│   - Authentification JWT            │
+│   - Validation données              │
+└──────────────┬──────────────────────┘
+               │
+┌──────────────▼──────────────────────┐
+│   Base de données PostgreSQL        │
+│   - Données immobilisations         │
+│   - Historique et audit             │
+│   - Paramétrages                    │
+└─────────────────────────────────────┘
+```
+
+#### 3.1.2 Stack technique recommandée
+
+**Backend**
+
+- Langage : Python 3.11+
+- Framework : FastAPI (API REST)
+- ORM : SQLAlchemy
+- Validation : Pydantic
+- Tests : Pytest
+- Migration DB : Alembic
+
+**Frontend Web**
+
+- Framework : React 18+ avec TypeScript
+- UI Library : Material-UI ou Ant Design
+- État global : Redux Toolkit ou Zustand
+- Requêtes API : React Query
+- Formulaires : React Hook Form
+- Graphiques : Chart.js ou Recharts
+- Exports : xlsx, jsPDF
+
+**Desktop**
+
+- Solution 1 : Electron (packaging de l’app web)
+- Solution 2 : Tauri (plus léger, Rust-based)
+- Communication : Même API REST que le web
+
+**Base de données**
+
+- SGBD : PostgreSQL 14+
+- Recherche : Extensions PostgreSQL (pg_trgm)
+- Backup : pg_dump automatisé
+
+**Infrastructure**
+
+- Conteneurisation : Docker + Docker Compose
+- Reverse Proxy : Nginx
+- CI/CD : GitLab CI ou GitHub Actions
+- Monitoring : Sentry (erreurs), Prometheus + Grafana
+
+### 3.2 Modèle de données
+
+#### 3.2.1 Entités principales
+
+**Immobilisation**
+
+```
+- id (PK)
+- numero_immobilisation (unique)
+- libelle
+- description
+- date_acquisition
+- date_mise_en_service
+- valeur_acquisition_ht
+- valeur_acquisition_ttc
+- tva
+- compte_comptable_id (FK)
+- categorie_id (FK)
+- localisation_id (FK)
+- responsable_id (FK)
+- fournisseur_id (FK)
+- numero_facture
+- date_garantie_debut
+- date_garantie_fin
+- statut (en_service, cede, reforme)
+- societe_id (FK)
+- created_at
+- updated_at
+- created_by (FK)
+- updated_by (FK)
+```
+
+**Amortissement**
+
+```
+- id (PK)
+- immobilisation_id (FK)
+- mode_amortissement (enum)
+- duree_amortissement_mois
+- taux_amortissement
+- date_debut_amortissement
+- valeur_residuelle
+- prorata_temporis (boolean)
+- base_amortissable
+- cumul_amortissement
+- valeur_nette_comptable
+- type_amortissement (comptable, fiscal)
+```
+
+**Dotation**
+
+```
+- id (PK)
+- immobilisation_id (FK)
+- periode (date)
+- montant_dotation
+- cumul_amortissement
+- valeur_nette_comptable
+- statut (calculee, validee, comptabilisee)
+- date_validation
+- date_comptabilisation
+- numero_piece_comptable
+- created_at
+```
+
+**Evenement**
+
+```
+- id (PK)
+- immobilisation_id (FK)
+- type_evenement (cession, reforme, reevaluation, transfert)
+- date_evenement
+- description
+- montant (pour cession)
+- plus_moins_value (calculée)
+- valeur_nette_comptable_date
+- created_by (FK)
+- created_at
+```
+
+**CompteComptable**
+
+```
+- id (PK)
+- numero_compte
+- libelle
+- type_compte (immobilisation, amortissement, dotation)
+- plan_comptable_id (FK)
+- actif (boolean)
+```
+
+**PlanComptable**
+
+```
+- id (PK)
+- code_pays
+- norme (PCG, IFRS, etc.)
+- libelle
+- actif (boolean)
+```
+
+**Categorie**
+
+```
+- id (PK)
+- code
+- libelle
+- duree_amortissement_defaut
+- mode_amortissement_defaut
+- taux_defaut
+- compte_immobilisation_defaut_id (FK)
+- compte_amortissement_defaut_id (FK)
+- compte_dotation_defaut_id (FK)
+- parent_id (FK - auto-référence)
+```
+
+**User**
+
+```
+- id (PK)
+- username (unique)
+- email (unique)
+- password_hash
+- nom
+- prenom
+- role_id (FK)
+- actif (boolean)
+- langue_preferee
+- created_at
+- last_login
+```
+
+**Role**
+
+```
+- id (PK)
+- nom
+- description
+- permissions (JSON)
+```
+
+**Societe**
+
+```
+- id (PK)
+- code
+- raison_sociale
+- pays
+- devise
+- plan_comptable_id (FK)
+- date_debut_exercice
+- date_fin_exercice
+- parametres (JSON)
+```
+
+**PieceJointe**
+
+```
+- id (PK)
+- immobilisation_id (FK)
+- nom_fichier
+- type_fichier
+- taille
+- chemin_stockage
+- uploaded_by (FK)
+- uploaded_at
+```
+
+**AuditLog**
+
+```
+- id (PK)
+- table_name
+- record_id
+- action (INSERT, UPDATE, DELETE)
+- old_values (JSON)
+- new_values (JSON)
+- user_id (FK)
+- timestamp
+```
+
+#### 3.2.2 Index et contraintes
+
+- Index sur numero_immobilisation (unique)
+- Index sur dates (acquisition, mise_en_service)
+- Index sur statut, categorie_id, societe_id
+- Contraintes de clés étrangères avec ON DELETE RESTRICT
+- Check constraints sur montants (>= 0)
+- Trigger pour audit automatique
+
+### 3.3 API REST
+
+#### 3.3.1 Endpoints principaux
+
+**Authentification**
+
+```
+POST   /api/v1/auth/login
+POST   /api/v1/auth/logout
+POST   /api/v1/auth/refresh
+GET    /api/v1/auth/me
+```
+
+**Immobilisations**
+
+```
+GET    /api/v1/immobilisations
+POST   /api/v1/immobilisations
+GET    /api/v1/immobilisations/{id}
+PUT    /api/v1/immobilisations/{id}
+DELETE /api/v1/immobilisations/{id}
+GET    /api/v1/immobilisations/{id}/amortissements
+GET    /api/v1/immobilisations/{id}/dotations
+GET    /api/v1/immobilisations/{id}/evenements
+POST   /api/v1/immobilisations/{id}/pieces-jointes
+```
+
+**Dotations**
+
+```
+POST   /api/v1/dotations/calculer
+POST   /api/v1/dotations/valider
+POST   /api/v1/dotations/comptabiliser
+GET    /api/v1/dotations
+GET    /api/v1/dotations/periode/{annee}/{mois}
+```
+
+**Événements**
+
+```
+POST   /api/v1/evenements/cession
+POST   /api/v1/evenements/reforme
+POST   /api/v1/evenements/reevaluation
+POST   /api/v1/evenements/transfert
+```
+
+**Éditions**
+
+```
+GET    /api/v1/editions/plan-amortissement
+GET    /api/v1/editions/journal-dotations
+GET    /api/v1/editions/etat-immobilisations
+GET    /api/v1/editions/cessions
+POST   /api/v1/exports/excel
+POST   /api/v1/exports/pdf
+POST   /api/v1/exports/fec
+```
+
+**Paramétrage**
+
+```
+GET    /api/v1/parametres/categories
+GET    /api/v1/parametres/plans-comptables
+GET    /api/v1/parametres/societes
+PUT    /api/v1/parametres/societes/{id}
+```
+
+**Utilisateurs**
+
+```
+GET    /api/v1/users
+POST   /api/v1/users
+GET    /api/v1/users/{id}
+PUT    /api/v1/users/{id}
+```
+
+#### 3.3.2 Format des réponses
+
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Operation successful",
+  "timestamp": "2025-01-15T10:30:00Z"
+}
+```
+
+En cas d’erreur :
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid input data",
+    "details": { ... }
+  },
+  "timestamp": "2025-01-15T10:30:00Z"
+}
+```
+
+### 3.4 Algorithmes de calcul
+
+#### 3.4.1 Amortissement linéaire
+
+```python
+def calcul_lineaire(valeur_acquisition, duree_mois, date_debut, date_fin, prorata=True):
+    """
+    Calcul de l'amortissement linéaire
+    """
+    taux_annuel = 100 / (duree_mois / 12)
+    
+    if prorata:
+        # Calcul du nombre de jours/mois depuis mise en service
+        jours_premiere_annee = calculer_jours(date_debut, fin_exercice)
+        dotation_premiere_annee = (valeur_acquisition * taux_annuel / 100) * (jours_premiere_annee / 360)
+    else:
+        dotation_annuelle = valeur_acquisition * taux_annuel / 100
+    
+    return dotation
+```
+
+#### 3.4.2 Amortissement dégressif
+
+```python
+def calcul_degressif(valeur_acquisition, duree_annees, coefficient_degressif):
+    """
+    Calcul de l'amortissement dégressif avec basculement automatique en linéaire
+    """
+    taux_degressif = (100 / duree_annees) * coefficient_degressif
+    
+    # Pour chaque année
+    for annee in range(duree_annees):
+        valeur_residuelle = valeur_acquisition - cumul_amortissement
+        dotation_degressive = valeur_residuelle * taux_degressif / 100
+        
+        # Calcul linéaire sur durée restante
+        annees_restantes = duree_annees - annee
+        dotation_lineaire = valeur_residuelle / annees_restantes
+        
+        # Basculement si linéaire > dégressif
+        dotation = max(dotation_degressive, dotation_lineaire)
+        
+    return dotation
+```
+
+### 3.5 Sécurité
+
+#### 3.5.1 Authentification
+
+- JWT (JSON Web Tokens) avec refresh tokens
+- Expiration : Access token 15min, Refresh token 7 jours
+- Stockage sécurisé des mots de passe (bcrypt)
+- Politique de mots de passe forts
+
+#### 3.5.2 Autorisation
+
+- RBAC (Role-Based Access Control)
+- Middleware de vérification des permissions
+- Validation des données entrantes (Pydantic)
+
+#### 3.5.3 Protection des données
+
+- HTTPS obligatoire en production
+- Chiffrement des données sensibles en base
+- Backup automatique quotidien
+- RGPD : gestion consentement, droit à l’oubli
+- SQL injection prevention (ORM)
+- CORS configuré strictement
+- Rate limiting sur API
+
+#### 3.5.4 Audit et traçabilité
+
+- Logging de toutes les actions utilisateurs
+- Historisation des modifications (audit trail)
+- Conservation des logs 1 an minimum
+
+### 3.6 Performance
+
+#### 3.6.1 Optimisations
+
+- Pagination systématique (max 100 résultats)
+- Cache Redis pour données fréquentes
+- Index database optimisés
+- Lazy loading des pièces jointes
+- Calculs asynchrones pour gros volumes
+
+#### 3.6.2 Scalabilité
+
+- Architecture stateless
+- Possibilité de load balancing
+- Database connection pooling
+- Séparation lecture/écriture possible
+
+-----
+
+## 4. INTERFACES UTILISATEUR
+
+### 4.1 Principes ergonomiques
+
+- Interface intuitive et moderne
+- Responsive design (web)
+- Accessibilité (WCAG 2.1 niveau AA)
+- Feedback utilisateur immédiat
+- Raccourcis clavier
+
+### 4.2 Écrans principaux
+
+#### 4.2.1 Tableau de bord
+
+- Vue synthétique du patrimoine
+- Graphiques d’évolution
+- Alertes et notifications
+- Actions rapides
+
+#### 4.2.2 Liste des immobilisations
+
+- Recherche avancée multi-critères
+- Filtres (catégorie, statut, localisation)
+- Tri sur toutes colonnes
+- Export direct
+- Actions groupées
+
+#### 4.2.3 Fiche immobilisation
+
+- Onglets : Informations, Amortissement, Dotations, Événements, Pièces jointes
+- Plan d’amortissement visuel
+- Historique des modifications
+- Actions contextuelles
+
+#### 4.2.4 Module de calcul
+
+- Interface de simulation
+- Lancement calculs période
+- Validation par lot
+- Visualisation des écarts
+
+#### 4.2.5 Module d’éditions
+
+- Sélection des critères
+- Aperçu avant export
+- Téléchargement/Impression
+
+### 4.3 Maquettes (à développer)
+
+- Wireframes des écrans principaux
+- Charte graphique
+- Guide de style
+
+-----
+
+## 5. DÉVELOPPEMENT ET LIVRAISON
+
+### 5.1 Méthodologie
+
+- Méthode agile (Scrum)
+- Sprints de 2 semaines
+- Revues régulières
+- Tests continus
+
+### 5.2 Phasage du projet
+
+**Phase 1 : Fondations (8 semaines)**
+
+- Setup infrastructure et environnements
+- Architecture backend + base de données
+- Authentification et gestion utilisateurs
+- CRUD immobilisations de base
+
+**Phase 2 : Cœur métier (10 semaines)**
+
+- Calculs d’amortissement (tous modes)
+- Gestion des dotations
+- Événements (cession, réforme)
+- Paramétrage multi-pays de base
+
+**Phase 3 : Éditions et exports (6 semaines)**
+
+- États de contrôle
+- Exports paramétrables
+- Tableaux de bord
+- Rapports PDF
+
+**Phase 4 : Interface et finalisation (6 semaines)**
+
+- Interface web complète
+- Application desktop
+- Tests utilisateurs
+- Corrections et optimisations
+
+**Phase 5 : Déploiement (2 semaines)**
+
+- Documentation utilisateur
+- Formation
+- Migration données (si existant)
+- Mise en production
+
+### 5.3 Tests
+
+#### 5.3.1 Types de tests
+
+- Tests unitaires (coverage > 80%)
+- Tests d’intégration
+- Tests fonctionnels
+- Tests de charge
+- Tests de sécurité
+- Tests utilisateurs (UAT)
+
+#### 5.3.2 Environnements
+
+- Développement
+- Recette/Staging
+- Production
+
+### 5.4 Documentation
+
+#### 5.4.1 Documentation technique
+
+- Architecture
+- API (Swagger/OpenAPI)
+- Modèle de données
+- Guide d’installation
+- Guide de déploiement
+
+#### 5.4.2 Documentation utilisateur
+
+- Manuel utilisateur complet
+- Guides rapides par module
+- FAQ
+- Vidéos tutorielles
+
+-----
+
+## 6. MAINTENANCE ET ÉVOLUTIONS
+
+### 6.1 Maintenance
+
+- Support niveau 1, 2, 3
+- SLA défini (temps de réponse)
+- Corrections de bugs
+- Mises à jour sécurité
+
+### 6.2 Évolutions prévues
+
+- Version mobile (iOS/Android)
+- Intégration ERP
+- Intelligence artificielle (prédiction durées vie)
+- Module d’inventaire physique avec QR codes
+- API publique pour intégrations tierces
+
+-----
+
+## 7. LIVRABLES
+
+### 7.1 Livrables techniques
+
+- Code source (repository Git)
+- Base de données (scripts et migrations)
+- Documentation technique complète
+- Tests automatisés
+- Configuration Docker
+
+### 7.2 Livrables fonctionnels
+
+- Application web déployée
+- Application desktop (Windows, Mac, Linux)
+- Documentation utilisateur
+- Jeux de données de démonstration
+
+### 7.3 Livrables projet
+
+- Cahier des charges validé
+- Spécifications détaillées
+- Comptes-rendus de recette
+- PV de livraison
+
+-----
+
+## 8. ANNEXES
+
+### 8.1 Glossaire
+
+- **VNC** : Valeur Nette Comptable
+- **Dotation** : Charge d’amortissement d’une période
+- **Prorata temporis** : Calcul proportionnel au temps
+- **Base amortissable** : Valeur d’acquisition - valeur résiduelle
+- **Plus/moins-value** : Différence entre prix de cession et VNC
+
+### 8.2 Références réglementaires
+
+- Plan Comptable Général (PCG)
+- Normes IFRS/IAS 16
+- Code Général des Impôts (amortissements fiscaux)
+- RGPD
+
+### 8.3 Exemples de calculs
+
+```
+Exemple 1 : Amortissement linéaire
+- Valeur acquisition : 10 000 €
+- Durée : 5 ans
+- Taux : 20% par an
+- Dotation annuelle : 2 000 €
+
+Exemple 2 : Amortissement dégressif
+- Valeur acquisition : 10 000 €
+- Durée : 5 ans
+- Coefficient : 1,75
+- Taux dégressif : 35%
+- Année 1 : 3 500 €
+- Année 2 : 2 275 € (sur 6 500 €)
+- etc.
+```
+
+-----
+
+## CONTACT ET VALIDATION
+
+**Chef de projet** : [À compléter]
+**Date de rédaction** : Décembre 2024
+**Version** : 1.0
+**Statut** : Brouillon
+
+**Signatures**
+
+- Client : ________________
+- Prestataire : ________________
+- Date : ________________

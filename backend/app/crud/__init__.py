@@ -1,6 +1,15 @@
-# backend/app/crud/__init__.py
-from app.crud.user import user
-from app.crud.societe import societe
-from app.crud.immobilisation import immobilisation
+"""
+Export des opérations CRUD
+"""
 
-__all__ = ["user", "societe", "immobilisation"]
+from app.crud import crud_categorie
+from app.crud.crud_societe import crud_societe
+from app.crud import crud_user
+from app.crud import crud_immobilisation
+
+__all__ = [
+    "crud_categorie",
+    "crud_societe",
+    "crud_user",
+    "crud_immobilisation",
+]

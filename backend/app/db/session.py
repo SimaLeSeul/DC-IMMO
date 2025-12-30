@@ -1,25 +1,41 @@
 """
-Configuration de la session SQLAlchemy
+Configuration de la session SQLAlchemy et de la connexion à la base de données
 """
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
+from typing import Generator
+
 from app.core.config import settings
 
-# Créer le moteur de base de données
+# Création de l'engine SQLAlchemy
 engine = create_engine(
     settings.DATABASE_URL,
     pool_pre_ping=True,  # Vérifie la connexion avant de l'utiliser
-    echo=False  # Mettre à True pour voir les requêtes SQL
+    echo=settings.DEBUG,  # Log SQL en mode debug
 )
 
-# Créer une factory de sessions
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Création de la session factory
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
 
-def get_db():
+
+def get_db() -> Generator[Session, None, None]:
     """
-    Générateur de session de base de données
-    À utiliser comme dépendance FastAPI
+    Dépendance FastAPI pour obtenir une session de base de données.
+    
+    Yields:
+        Session: Session SQLAlchemy
+        
+    Example:
+        ```python
+        @router.get("/items/")
+        def read_items(db: Session = Depends(get_db)):
+            return db.query(Item).all()
+        ```
     """
     db = SessionLocal()
     try:

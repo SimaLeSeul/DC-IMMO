@@ -120,4 +120,4 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
 
 
 # Instance unique pour import
-user = CRUDUser(User)
+crud_user = CRUDUser(User)

@@ -2,50 +2,49 @@
 Configuration de l'application
 """
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
 
 
 class Settings(BaseSettings):
-    """Paramètres de configuration"""
+    """Configuration de l'application"""
     
-    # Application
-    APP_NAME: str = "API Gestion Immobilisations"
-    APP_VERSION: str = "1.0.0"
-    DEBUG: bool = True
+    model_config = SettingsConfigDict(
+        case_sensitive=True,
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore"
+    )
     
-    # Base de données PostgreSQL
-    POSTGRES_SERVER: str = "localhost"
-    POSTGRES_PORT: int = 5432
-    POSTGRES_USER: str = "immobilisations_user"
-    POSTGRES_PASSWORD: str = "immobilisations_password"
-    POSTGRES_DB: str = "immobilisations_db"
+    # Informations de l'application
+    PROJECT_NAME: str = "DC-IMMO API"
+    VERSION: str = "1.0.0"
+    API_V1_STR: str = "/api/v1"
     
-    # URL de connexion PostgreSQL
+    # Base de données PostgreSQL (SANS valeurs par défaut)
+    POSTGRES_SERVER: str
+    POSTGRES_PORT: str = "5432"
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+    
+    # URL de connexion (construite automatiquement)
     @property
     def DATABASE_URL(self) -> str:
-        return (
-            f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
-            f"@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
-        )
+        return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
     
-    # JWT
-    SECRET_KEY: str = "votre-cle-secrete-super-securisee-changez-moi-en-production"
+    # Sécurité
+    SECRET_KEY: str
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
     # CORS
-    BACKEND_CORS_ORIGINS: list = [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173",
-    ]
+    BACKEND_CORS_ORIGINS: list = ["http://localhost:3000", "http://localhost:5173"]
     
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
+    # Environment
+    ENVIRONMENT: str = "development"
+    DEBUG: bool = True
 
 
-# Instance globale des settings
+# Instance unique
 settings = Settings()

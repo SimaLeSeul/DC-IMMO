@@ -71,4 +71,4 @@ class CRUDImmobilisation(CRUDBase[Immobilisation, ImmobilisationCreate, Immobili
 
 
 # Instance unique
-immobilisation = CRUDImmobilisation(Immobilisation)
+crud_immobilisation = CRUDImmobilisation(Immobilisation)
