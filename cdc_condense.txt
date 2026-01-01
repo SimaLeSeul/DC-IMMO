@@ -1,0 +1,167 @@
+1. Objectif
+
+Développer un logiciel de gestion comptable des immobilisations permettant l’enregistrement, le calcul des amortissements et dotations, la gestion des événements (cession, réforme…), la production d’états réglementaires et l’adaptation multi-pays/multi-normes.
+
+2. Périmètre
+
+Cible : TPE, PME, grandes entreprises
+
+Utilisateurs simultanés : 3 à 5
+
+Plateformes : Web + Desktop
+
+Multi-sociétés, multi-devises, multilingue (FR/EN extensible)
+
+3. Fonctionnalités
+3.1 Gestion des immobilisations
+
+Création, modification et consultation des immobilisations avec :
+
+Identifiants (numéro auto/manuelle, libellé, description)
+
+Dates (acquisition, mise en service)
+
+Valeurs (HT, TTC, TVA, valeur résiduelle)
+
+Localisation, responsable, fournisseur, facture
+
+Catégories, familles, comptes comptables, analytique
+
+Pièces jointes (factures, documents, images)
+
+Statut : en service, cédée, réformée
+
+3.2 Amortissements
+
+Modes : linéaire, dégressif, dégressif avec bascule, exceptionnel, dérogatoire, variable
+
+Paramètres : durée (mois/années), taux, prorata temporis, fiscal/comptable
+
+Calcul automatique mensuel et recalcul à la demande
+
+Historique et suivi de la VNC
+
+3.3 Dotations
+
+Génération périodique (mensuelle/annuelle)
+
+Validation, comptabilisation, extourne
+
+Historique complet par immobilisation et période
+
+3.4 Événements
+
+Cession (calcul plus/moins-value)
+
+Mise au rebut
+
+Réévaluation
+
+Transfert (localisation, responsable, société)
+
+Décomposition d’immobilisation avec conservation de l’historique
+
+3.5 États & contrôles
+
+États : inventaire, plans d’amortissement, journaux de dotations, cessions
+
+Tableaux de bord : valeur du patrimoine, dotations, répartition
+
+Alertes : incohérences, fin d’amortissement, fin de garantie
+
+3.6 Exports
+
+Formats : Excel/CSV, PDF, XML, FEC (France)
+
+Exports paramétrables (colonnes, filtres, regroupements)
+
+Modèles sauvegardés et exports planifiés
+
+3.7 Utilisateurs & sécurité
+
+Rôles : administrateur, gestionnaire, saisie, consultation
+
+Gestion fine des droits par module et société
+
+Audit trail complet (création, modification, suppression)
+
+3.8 Multi-pays
+
+Plans comptables par pays/norme (PCG, IFRS…)
+
+Règles locales d’amortissement et fiscalité
+
+Paramètres régionaux : langue, formats, devise, exercice fiscal
+
+4. Architecture technique
+4.1 Stack
+
+Frontend : React + TypeScript
+
+Desktop : Electron ou Tauri
+
+Backend : Python 3.11+, FastAPI
+
+ORM : SQLAlchemy, validation Pydantic
+
+Base de données : PostgreSQL
+
+API REST JSON sécurisée
+
+4.2 Sécurité
+
+Authentification JWT + refresh tokens
+
+RBAC, validation des données
+
+HTTPS obligatoire, mots de passe chiffrés
+
+Sauvegardes automatiques, conformité RGPD
+
+4.3 Performance & scalabilité
+
+Pagination systématique
+
+Index DB optimisés
+
+Cache (Redis possible)
+
+Architecture stateless compatible load balancing
+
+5. Modèle de données (principales entités)
+
+Immobilisation
+
+Amortissement
+
+Dotation
+
+Événement
+
+Compte comptable / Plan comptable
+
+Catégorie
+
+Société
+
+Utilisateur / Rôle
+
+Pièce jointe
+
+Journal d’audit
+
+6. Méthodologie & livrables
+
+Méthode agile (Scrum, sprints de 2 semaines)
+
+Livrables :
+
+Application web et desktop
+
+Code source versionné
+
+Base de données et scripts
+
+Documentation technique et utilisateur
+
+Jeux de données de test
